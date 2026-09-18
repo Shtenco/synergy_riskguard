@@ -1,53 +1,41 @@
 # SYNERGY RiskGuard
 
-**Independent pre-trade and portfolio risk-control layer with VaR/CVaR, drawdown veto and kill-switch**
+> **Independent pre-trade and portfolio risk control with VaR/CVaR, drawdown veto and kill-switch**
 
-Version: `2.0.0` · Python 3.11+ · REST API · Docker · CI · automated tests
+**Enterprise v2.0.0** · Python 3.11+ · FastAPI/OpenAPI · Docker/Compose · PostgreSQL/ClickHouse audit · RBAC/JWT · CI/tests
 
-## Why this exists
-Strategies and traders need a deterministic control layer that can veto risk independently of alpha logic.
+**Designed for:** Prop firms, brokers, quant funds, family offices and trading desks  
+**Primary endpoint:** `POST /enterprise/v1/risk/check`  
+**Commercial mode:** paid technical pilot · source-code licensing · OEM/white-label integration
 
-## Commercial buyer
-Prop firms, brokers, quant funds, family offices and trading desks.
+> [!IMPORTANT]
+> Trading/research infrastructure only. No promise of investment return, profitable execution or regulatory approval. Production requires customer OOS/paper/canary evidence and Security/Risk/Ops/Compliance sign-off.
 
-## Core guarantee
-The software guarantees deterministic interface behavior covered by tests. **It does not guarantee trading profit.** Live-market deployment requires customer-specific OOS validation, fees/spread/slippage/latency/capacity modelling, security review and legal/compliance approval.
+## Fund-facing capabilities
+- deterministic product core separated from enterprise controls;
+- tenant RBAC, request-ID audit, PostgreSQL + ClickHouse;
+- health/Prometheus metrics and bounded retry/circuit-breaker;
+- Bybit V5, CCXT and MT5 integration contracts; live execution off by default;
+- Docker/Compose, synthetic demo data, load harnesses and due-diligence documentation.
 
-## Quick start
+## Verification snapshot
+| Evidence | Snapshot |
+|---|---:|
+| tests | **21 passed** |
+| health smoke | **80/80 HTTP 200** |
+| p50 / p95 / p99 | **15.4 / 69 / 82.8 ms** |
+| local throughput | **539 req/s** |
+
+Local health smoke only; not a production SLA or market/execution benchmark.
+
+## Quick evaluation
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -e '.[dev]'
+python -m venv .venv && source .venv/bin/activate
+pip install -e '.[dev,enterprise]'
 pytest -q
 python -m synergy_riskguard.api
 ```
+Open `http://127.0.0.1:8000/docs`.
 
-Then open `http://localhost:8000/docs`.
-
-## Commercial package
-- standalone installable Python package;
-- versioned FastAPI boundary;
-- deterministic reference core;
-- Dockerfile and GitHub Actions CI;
-- sales one-pager, security boundary, deployment notes and provenance;
-- proprietary evaluation licence ready for a paid pilot.
-
-## Research lineage
-Shtenco/midas_ai_trading_system Shtenco_Riskmanager.py + quantum_midas_integrated_var.py; MQL5 risk-management research
-
-See `docs/PRODUCT_STATUS.md`, `docs/SALES_ONE_PAGER.md`, `docs/SECURITY.md` and `docs/PROVENANCE.md`.
-
-## Enterprise v2.0.0
-
-The repository now includes a separate enterprise boundary around the product core:
-
-- JWT/RBAC roles (`viewer`, `researcher`, `trader`, `risk`, `operator`, `admin`);
-- request-id propagation and auditable product actions;
-- PostgreSQL and ClickHouse audit stores;
-- Bybit V5, CCXT multi-CEX and MetaTrader 5 adapters with live execution disabled by default;
-- retry/circuit breaker controls;
-- health and Prometheus-compatible metrics;
-- Docker Compose deployment reference;
-- deterministic synthetic customer dataset and HTTP/k6 load harnesses.
-
-See `docs/ENTERPRISE_ARCHITECTURE.md`, `docs/ENTERPRISE_DEPLOYMENT.md` and `docs/CUSTOMER_ACCEPTANCE.md` before any customer deployment.
+## CTO package
+[Due diligence](docs/CTO_DUE_DILIGENCE.md) · [Architecture](docs/ARCHITECTURE_DIAGRAMS.md) · [API](docs/API_EXAMPLES.md) · [Security](SECURITY.md) · [Benchmarks](docs/BENCHMARKS_AND_ACCEPTANCE.md) · [SLA/SLO](docs/SLA_SLO.md) · [Deployment](docs/DEPLOYMENT_CHECKLIST.md) · [Pilot](docs/CUSTOMER_PILOT.md)
