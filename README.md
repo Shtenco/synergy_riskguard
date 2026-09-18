@@ -2,6 +2,8 @@
 
 > **Independent pre-trade and portfolio risk control with VaR/CVaR, drawdown veto and kill-switch**
 
+Version: `2.0.0`
+
 **Enterprise v2.0.0** · Python 3.11+ · FastAPI/OpenAPI · Docker/Compose · PostgreSQL/ClickHouse audit · RBAC/JWT · CI/tests
 
 **Designed for:** Prop firms, brokers, quant funds, family offices and trading desks  
