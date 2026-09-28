@@ -74,3 +74,70 @@ README должен показывать: проблему → архитект�
 Репозиторий не присваивает полномочия соседнего домена: AI ≠ authorization, UI ≠ ledger, blockchain commitment ≠ accounting truth, backtest ≠ realized external P&L.
 
 <!-- SYNERGY-FEDERATION-PASSPORT:END -->
+---
+
+# 🛡️ Глубокая техническая спецификация RiskGuard
+
+## 🎯 Проблема
+
+Стратегия может быть статистически интересной и одновременно недопустимой по портфельному риску. RiskGuard существует как независимый veto-слой, который не должен зависеть от «уверенности» стратегии.
+
+## 🏗️ Pipeline
+
+```mermaid
+flowchart LR
+    N0[Trade / Portfolio Intent] --> N1[Normalize exposures] --> N2[Market + portfolio state] --> N3[VaR / CVaR / drawdown / concentration] --> N4[Hard policy gates] --> N5[ALLOW / RESIZE / DENY / KILL]
+```
+
+## 📥 Входы
+
+- позиции и pending intents;
+- NAV/equity snapshot;
+- volatility/covariance inputs;
+- venue/asset exposure;
+- liquidity/spread state;
+- policy limits;
+
+## 📤 Выходы
+
+- risk decision;
+- approved size or zero;
+- limit breaches;
+- kill-switch reason;
+- auditable request/decision id;
+
+## 🛡️ Непереговорные инварианты
+
+```text
+strategy cannot override DENY
+stale portfolio state must fail closed
+risk calculations must bind timestamp/state version
+limit changes require explicit policy provenance
+NO_TRADE is valid
+```
+
+## 🧪 Как ловить ложный GREEN
+
+- отделять API/health benchmark от качества торгового решения;
+- проверять stale-state и timestamp binding;
+- иметь negative/adversarial tests;
+- не считать unit-test coverage доказательством инвестиционной ценности;
+- сохранять request → decision → downstream evidence chain;
+- явно указывать, что измерено локально, а что требует customer/live validation.
+
+## 🔗 Контракт с соседями
+
+- [`synergy_midas_ai`](https://github.com/Shtenco/synergy_midas_ai)
+- [`synergy_quantlab`](https://github.com/Shtenco/synergy_quantlab)
+- [`synergy_trademux`](https://github.com/Shtenco/synergy_trademux)
+- [`synergy_financial_os`](https://github.com/Shtenco/synergy_financial_os)
+
+## 🚀 Следующий доказательный рубеж
+
+1. frozen acceptance dataset;
+2. adversarial fixtures;
+3. cross-module typed contract;
+4. end-to-end trace id;
+5. OOS/shadow evidence where market quality is claimed;
+6. explicit failure-mode table;
+7. reproducible evidence bundle referenced from README.
