@@ -46,17 +46,17 @@ Open `http://127.0.0.1:8000/docs`.
 <!-- SYNERGY-FEDERATION-PASSPORT:START -->
 ---
 
-## 🧭 SYNERGY federation passport
+##  SYNERGY federation passport
 
-**Домен:** 🛡️ Independent risk layer  
+**Домен:**  Independent risk layer  
 **Архитектурный родитель:** [`synergy_midas_ai`](https://github.com/Shtenco/synergy_midas_ai)  
 **Архитектурный корень:** [`synergy_system`](https://github.com/Shtenco/synergy_system)
 
 ```mermaid
 flowchart LR
-    SYS[🧭 synergy_system] --> P[synergy_midas_ai]
+    SYS[ synergy_system] --> P[synergy_midas_ai]
     P --> THIS[synergy_riskguard]
-    THIS --> E[📦 Evidence / outputs]
+    THIS --> E[ Evidence / outputs]
 ```
 
 ### Документационный контракт
@@ -65,9 +65,9 @@ README должен показывать: проблему → архитект�
 
 ### Навигация
 
-- [📚 Атлас всех 75 репозиториев](https://github.com/Shtenco/synergy_system/blob/main/docs/SYNERGY_REPOSITORY_ATLAS.md)
-- [🧾 Машиночитаемый registry](https://github.com/Shtenco/synergy_system/blob/main/registry/SYNERGY_REPOSITORIES.json)
-- [🧭 SYNERGY SYSTEM](https://github.com/Shtenco/synergy_system)
+- [ Атлас всех 75 репозиториев](https://github.com/Shtenco/synergy_system/blob/main/docs/SYNERGY_REPOSITORY_ATLAS.md)
+- [ Машиночитаемый registry](https://github.com/Shtenco/synergy_system/blob/main/registry/SYNERGY_REPOSITORIES.json)
+- [ SYNERGY SYSTEM](https://github.com/Shtenco/synergy_system)
 
 ### Authority rule
 
@@ -76,20 +76,20 @@ README должен показывать: проблему → архитект�
 <!-- SYNERGY-FEDERATION-PASSPORT:END -->
 ---
 
-# 🛡️ Глубокая техническая спецификация RiskGuard
+#  Глубокая техническая спецификация RiskGuard
 
-## 🎯 Проблема
+##  Проблема
 
 Стратегия может быть статистически интересной и одновременно недопустимой по портфельному риску. RiskGuard существует как независимый veto-слой, который не должен зависеть от «уверенности» стратегии.
 
-## 🏗️ Pipeline
+##  Pipeline
 
 ```mermaid
 flowchart LR
     N0[Trade / Portfolio Intent] --> N1[Normalize exposures] --> N2[Market + portfolio state] --> N3[VaR / CVaR / drawdown / concentration] --> N4[Hard policy gates] --> N5[ALLOW / RESIZE / DENY / KILL]
 ```
 
-## 📥 Входы
+##  Входы
 
 - позиции и pending intents;
 - NAV/equity snapshot;
@@ -98,7 +98,7 @@ flowchart LR
 - liquidity/spread state;
 - policy limits;
 
-## 📤 Выходы
+##  Выходы
 
 - risk decision;
 - approved size or zero;
@@ -106,7 +106,7 @@ flowchart LR
 - kill-switch reason;
 - auditable request/decision id;
 
-## 🛡️ Непереговорные инварианты
+##  Непереговорные инварианты
 
 ```text
 strategy cannot override DENY
@@ -116,7 +116,7 @@ limit changes require explicit policy provenance
 NO_TRADE is valid
 ```
 
-## 🧪 Как ловить ложный GREEN
+##  Как ловить ложный GREEN
 
 - отделять API/health benchmark от качества торгового решения;
 - проверять stale-state и timestamp binding;
@@ -125,14 +125,14 @@ NO_TRADE is valid
 - сохранять request → decision → downstream evidence chain;
 - явно указывать, что измерено локально, а что требует customer/live validation.
 
-## 🔗 Контракт с соседями
+##  Контракт с соседями
 
 - [`synergy_midas_ai`](https://github.com/Shtenco/synergy_midas_ai)
 - [`synergy_quantlab`](https://github.com/Shtenco/synergy_quantlab)
 - [`synergy_trademux`](https://github.com/Shtenco/synergy_trademux)
 - [`synergy_financial_os`](https://github.com/Shtenco/synergy_financial_os)
 
-## 🚀 Следующий доказательный рубеж
+##  Следующий доказательный рубеж
 
 1. frozen acceptance dataset;
 2. adversarial fixtures;
